@@ -51,6 +51,30 @@ function loadProgressRecord(key: string): UserProfile | null {
 }
 
 
+export const GUEST_USER = {
+  id: "guest",
+  name: "Guest Explorer",
+  email: "guest@skillindiahub.in",
+  location: "India",
+  city: "Delhi",
+  education: "Class 12",
+  skillLevel: "Beginner",
+  interests: [],
+  skills: [],
+  careerGoal: "",
+  targetCareer: "",
+  targetCareerId: "",
+  goalType: "Career Exploration",
+  hoursPerWeek: 8,
+  createdAt: Date.now(),
+  skilldna: null,
+  xp: 0,
+  level: 1,
+  badges: [],
+  resumeHealth: 0,
+  avatarColor: "from-electric-500 to-sky-glow",
+} as any;
+
 type AuthContextType = {
   user: UserProfile | null;
   isHydrated: boolean;
