@@ -87,31 +87,7 @@ export function Navbar() {
     };
   }, [menuOpen]);
 
-  useEffect(() => {
-    if (!overlayRef.current || !panelRef.current || !linksRef.current) return;
-    const tl = gsap.timeline({ paused: true });
-    tl.fromTo(overlayRef.current, { clipPath: "inset(0% 0% 100% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.7, ease: "expo.inOut" })
-      .fromTo(panelRef.current, { y: 40, opacity: 0, scale: 0.95 }, { y: 0, opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.2)" }, "-=0.3")
-      .fromTo(
-        linksRef.current?.children ?? [],
-        { y: 40, opacity: 0, scale: 0.9 },
-        { y: 0, opacity: 1, scale: 1, duration: 0.6, stagger: 0.08, ease: "back.out(1.5)" },
-        "-=0.4"
-      );
-    tlRef.current = tl;
-    return () => {
-      tl.kill();
-      tlRef.current = null;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (menuOpen) {
-      tlRef.current?.play();
-    } else {
-      tlRef.current?.reverse();
-    }
-  }, [menuOpen]);
+  // No GSAP timeline needed, using Framer Motion instead
 
   const links = user
     ? [{ href: "/dashboard", label: "nav.dashboard", icon: "LayoutDashboard" }, ...LINKS]
@@ -274,125 +250,158 @@ export function Navbar() {
         </div>
       </div>
 
-      <div
-        ref={overlayRef}
-        className="fixed inset-0 z-[80] bg-navy-950/95 backdrop-blur-2xl"
-        style={{ clipPath: "inset(0% 0% 100% 0%)" }}
-        aria-hidden={!menuOpen}
-      >
-        <div ref={panelRef} className="flex h-full flex-col overflow-y-auto scrollbar-none">
-          <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6">
-            <button type="button" onClick={handleLogoClick} className="flex items-center gap-2.5 cursor-pointer">
-              <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-electric-500 to-sky-glow text-white shadow-glow-blue">
-                <Icon name="Rocket" size={19} />
-              </span>
-              <span className="text-base font-bold tracking-tight text-white">
-                Skill India <span className="text-gradient">Hub</span>
-              </span>
-            </button>
-            <button
-              onClick={() => setMenuOpen(false)}
-              aria-label={t("nav.toggleMenu")}
-              className="grid h-10 w-10 place-items-center rounded-xl text-navy-200 transition-colors hover:bg-white/5 hover:text-white cursor-pointer"
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ clipPath: "inset(0% 0% 100% 0%)" }}
+            animate={{ clipPath: "inset(0% 0% 0% 0%)" }}
+            exit={{ clipPath: "inset(0% 0% 100% 0%)" }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 z-[80] bg-navy-950/95 backdrop-blur-2xl"
+          >
+            <motion.div
+              initial={{ y: 40, opacity: 0, scale: 0.95 }}
+              animate={{ y: 0, opacity: 1, scale: 1 }}
+              exit={{ y: 20, opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="flex h-full flex-col overflow-y-auto scrollbar-none"
             >
-              <Icon name="X" size={21} />
-            </button>
-          </div>
-
-          <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center gap-8 px-4 py-8 sm:px-6">
-            <div ref={linksRef} className="grid gap-1.5 sm:grid-cols-2">
-              {links.map((l) => {
-                const active = pathname === l.href;
-                return (
-                  <Link
-                    key={l.href}
-                    href={l.href}
-                    onClick={() => setMenuOpen(false)}
-                    className={cn(
-                      "group flex items-center gap-4 rounded-2xl border px-5 py-4 transition-all",
-                      active
-                        ? "border-electric-400/40 bg-electric-500/10 text-white"
-                        : "border-white/5 bg-white/2 text-navy-100 hover:border-electric-400/30 hover:bg-white/5 hover:text-white"
-                    )}
-                  >
-                    <span
-                      className={cn(
-                        "grid h-11 w-11 shrink-0 place-items-center rounded-xl transition-transform group-hover:scale-110",
-                        active ? "bg-electric-500/20 text-electric-300" : "bg-white/6 text-electric-300"
-                      )}
-                    >
-                      <Icon name={l.icon} size={20} />
-                    </span>
-                    <span className="text-lg font-semibold sm:text-xl">{t(l.label as never)}</span>
-                    <Icon name="ArrowRight" size={16} className="ml-auto text-navy-500 transition-all group-hover:translate-x-1 group-hover:text-electric-300" />
-                  </Link>
-                );
-              })}
-            </div>
-
-            {user && (
-              <div className="space-y-2">
-                <p className="text-xs font-semibold uppercase tracking-wider text-navy-500">{t("nav.primary")}</p>
-                <div className="flex flex-wrap gap-2">
-                  {MORE_LINKS.map((l) => (
-                    <Link
-                      key={l.href}
-                      href={l.href}
-                      onClick={() => setMenuOpen(false)}
-                      className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/4 px-3.5 py-2 text-sm text-navy-200 transition-colors hover:border-electric-400/40 hover:text-white"
-                    >
-                      <Icon name={l.icon} size={15} /> {t(l.label as never)}
-                    </Link>
-                  ))}
-                </div>
+              <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6">
+                <button type="button" onClick={handleLogoClick} className="flex items-center gap-2.5 cursor-pointer">
+                  <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-electric-500 to-sky-glow text-white shadow-glow-blue">
+                    <Icon name="Rocket" size={19} />
+                  </span>
+                  <span className="text-base font-bold tracking-tight text-white">
+                    Skill India <span className="text-gradient">Hub</span>
+                  </span>
+                </button>
+                <button
+                  onClick={() => setMenuOpen(false)}
+                  aria-label={t("nav.toggleMenu")}
+                  className="grid h-10 w-10 place-items-center rounded-xl text-navy-200 transition-colors hover:bg-white/5 hover:text-white cursor-pointer"
+                >
+                  <Icon name="X" size={21} />
+                </button>
               </div>
-            )}
 
-            <div className="mt-auto space-y-4 border-t border-white/10 pt-6">
-              {user ? (
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="flex items-center gap-3">
-                    <span className={cn("grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br text-sm font-bold text-white", avatarGradient(user.name))}>
-                      {initials(user.name)}
-                    </span>
-                    <div>
-                      <p className="font-semibold text-white">{user.name}</p>
-                      <p className="truncate text-xs text-navy-400">{user.email}</p>
-                    </div>
-                  </div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    {userQuickLinks.map((i) => (
-                      <Link
-                        key={i.href}
-                        href={i.href}
-                        onClick={() => setMenuOpen(false)}
-                        className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/4 px-3 py-2 text-xs text-navy-200 transition-colors hover:border-electric-400/40 hover:text-white"
+              <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center gap-8 px-4 py-8 sm:px-6">
+                <div className="grid gap-1.5 sm:grid-cols-2">
+                  {links.map((l, i) => {
+                    const active = pathname === l.href;
+                    return (
+                      <motion.div
+                        key={l.href}
+                        initial={{ y: 30, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: 10, opacity: 0 }}
+                        transition={{ duration: 0.4, delay: 0.15 + i * 0.05, ease: [0.16, 1, 0.3, 1] }}
                       >
-                        <Icon name={i.icon} size={14} /> {i.label}
-                      </Link>
-                    ))}
-                    <LogoutButton onDone={() => setMenuOpen(false)} />
-                  </div>
+                        <Link
+                          href={l.href}
+                          onClick={() => setMenuOpen(false)}
+                          className={cn(
+                            "group flex items-center gap-4 rounded-2xl border px-5 py-4 transition-all",
+                            active
+                              ? "border-electric-400/40 bg-electric-500/10 text-white"
+                              : "border-white/5 bg-white/2 text-navy-100 hover:border-electric-400/30 hover:bg-white/5 hover:text-white"
+                          )}
+                        >
+                          <span
+                            className={cn(
+                              "grid h-11 w-11 shrink-0 place-items-center rounded-xl transition-transform group-hover:scale-110",
+                              active ? "bg-electric-500/20 text-electric-300" : "bg-white/6 text-electric-300"
+                            )}
+                          >
+                            <Icon name={l.icon as never} size={20} />
+                          </span>
+                          <span className="text-lg font-semibold sm:text-xl">{t(l.label as never)}</span>
+                          <Icon name="ArrowRight" size={16} className="ml-auto text-navy-500 transition-all group-hover:translate-x-1 group-hover:text-electric-300" />
+                        </Link>
+                      </motion.div>
+                    );
+                  })}
                 </div>
-              ) : (
-                <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
-                  <p className="text-sm text-navy-300">{t("login.left.1")}</p>
-                  <div className="flex items-center gap-2">
-                    <LanguageSwitcher compact />
-                    <Link
-                      href="/login"
-                      onClick={() => sessionStorage.setItem("sih_login_nav", "1")}
-                      className="rounded-xl bg-gradient-to-r from-electric-500 to-sky-glow px-5 py-2.5 text-sm font-semibold text-white shadow-glow-blue transition-all hover:brightness-110"
-                    >
-                      {t("nav.signIn")}
-                    </Link>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
+
+                {user && (
+                  <motion.div
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4, delay: 0.3 }}
+                    className="space-y-2"
+                  >
+                    <p className="text-xs font-semibold uppercase tracking-wider text-navy-500">{t("nav.primary")}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {MORE_LINKS.map((l) => (
+                        <Link
+                          key={l.href}
+                          href={l.href}
+                          onClick={() => setMenuOpen(false)}
+                          className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/4 px-3.5 py-2 text-sm text-navy-200 transition-colors hover:border-electric-400/40 hover:text-white"
+                        >
+                          <Icon name={l.icon as never} size={15} /> {t(l.label as never)}
+                        </Link>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4, delay: 0.4 }}
+                  className="mt-auto space-y-4 border-t border-white/10 pt-6"
+                >
+                  {user ? (
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                      <div className="flex items-center gap-3">
+                        <span className={cn("grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br text-sm font-bold text-white", avatarGradient(user.name))}>
+                          {initials(user.name)}
+                        </span>
+                        <div>
+                          <p className="font-semibold text-white">{user.name}</p>
+                          <p className="truncate text-xs text-navy-400">{user.email}</p>
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-2">
+                        {userQuickLinks.map((i) => (
+                          <Link
+                            key={i.href}
+                            href={i.href}
+                            onClick={() => setMenuOpen(false)}
+                            className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/4 px-3 py-2 text-xs text-navy-200 transition-colors hover:border-electric-400/40 hover:text-white"
+                          >
+                            <Icon name={i.icon as never} size={14} /> {i.label}
+                          </Link>
+                        ))}
+                        <LogoutButton onDone={() => setMenuOpen(false)} />
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
+                      <p className="text-sm text-navy-300">{t("login.left.1")}</p>
+                      <div className="flex items-center gap-2">
+                        <LanguageSwitcher compact />
+                        <Link
+                          href="/login"
+                          onClick={() => {
+                            sessionStorage.setItem("sih_login_nav", "1");
+                            setMenuOpen(false);
+                          }}
+                          className="rounded-xl bg-gradient-to-r from-electric-500 to-sky-glow px-5 py-2.5 text-sm font-semibold text-white shadow-glow-blue transition-all hover:brightness-110"
+                        >
+                          {t("nav.signIn")}
+                        </Link>
+                      </div>
+                    </div>
+                  )}
+                </motion.div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <ReloadOverlay show={reloading} />
     </header>
