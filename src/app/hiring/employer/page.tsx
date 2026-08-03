@@ -204,7 +204,7 @@ export default function EmployerPage() {
   const applicantsFor = (jobId: string) => rows.filter((r) => r.application.jobId === jobId);
   const activeRows = rows.filter((r) => r.application.status !== "rejected");
   const activeOrdered = [...activeRows].sort((a, b) => {
-    const rank: Record<JobApplication["status"], number> = { applied: 0, shortlisted: 1, interview: 2, hired: 3, rejected: 4 };
+    const rank: Record<JobApplication["status"], number> = { applied: 0, shortlisted: 1, interview: 2, interviewed: 3, hired: 4, rejected: 5 };
     return rank[a.application.status] - rank[b.application.status] || b.application.appliedAt - a.application.appliedAt;
   });
 
