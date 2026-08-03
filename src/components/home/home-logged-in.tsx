@@ -86,13 +86,13 @@ export function HomeLoggedIn() {
         <Icon name="Target" size={20} className="text-electric-300" /> {t("home.topMatches")}
       </h2>
       <div className="grid gap-5 lg:grid-cols-3">
-        <div className="space-y-4">
+        <div className="flex flex-col gap-4">
           {topTraining.map((t, i) => <TrainingCard key={t.id} t={t} user={profile} index={i} />)}
         </div>
-        <div className="space-y-4">
+        <div className="flex flex-col gap-4">
           {topIntern.map((i, idx) => <InternshipCard key={i.id} i={i} user={profile} index={idx} />)}
         </div>
-        <div className="space-y-4">
+        <div className="flex flex-col gap-4">
           {topJob.map((j, idx) => <JobCard key={j.id} j={j} user={profile} index={idx} />)}
         </div>
       </div>
