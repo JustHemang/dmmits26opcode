@@ -18,7 +18,7 @@ let buttonNav = false;
 
 function LoginForm() {
   const router = useRouter();
-  const { login, demoLogin, user } = useAuth();
+  const { login, user } = useAuth();
   const { toast } = useStore();
   const { t } = useLang();
   const [mode, setMode] = useState<"mobile" | "email">("mobile");
@@ -44,11 +44,7 @@ function LoginForm() {
     }
   }, [user, router]);
 
-  const handleDemo = () => {
-    demoLogin();
-    toast("Welcome, Aarav! 👋", { message: "Signed in as Demo User with your full personalized dashboard." });
-    router.replace("/dashboard");
-  };
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -219,27 +215,7 @@ function LoginForm() {
             </Link>
           </p>
 
-          <div className="my-7 flex items-center gap-4">
-            <span className="h-px flex-1 bg-white/10" />
-            <span className="text-xs text-navy-400">judging the demo?</span>
-            <span className="h-px flex-1 bg-white/10" />
-          </div>
 
-          <button
-            onClick={handleDemo}
-            className="group flex w-full flex-col items-center rounded-2xl border border-saffron-500/40 bg-gradient-to-r from-saffron-500/15 via-white/5 to-saffron-500/15 p-5 text-center transition-all hover:border-saffron-400 hover:shadow-[0_0_40px_-10px_rgba(255,153,51,0.5)] cursor-pointer"
-          >
-            <span className="flex items-center gap-2.5 text-base font-bold text-white">
-              <Icon name="Sparkles" size={19} className="text-saffron-400" />
-              {t("login.demo")}
-            </span>
-            <span className="mt-2 flex items-center gap-2 text-xs text-navy-300">
-              <span className="grid h-6 w-6 place-items-center rounded-full bg-gradient-to-br text-[10px] font-bold text-white from-electric-500 to-sky-glow">
-                {initials("Aarav Sharma")}
-              </span>
-              {t("login.demoSub")}
-            </span>
-          </button>
         </div>
       </div>
     </div>

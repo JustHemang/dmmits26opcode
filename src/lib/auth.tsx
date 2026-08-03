@@ -50,177 +50,12 @@ function loadProgressRecord(key: string): UserProfile | null {
   }
 }
 
-export const DEMO_USER: UserProfile = {
-  id: "demo_aarav",
-  name: "Aarav Sharma",
-  email: "aarav@skillindiahub.demo",
-  location: "Delhi",
-  city: "Delhi",
-  education: "Class 12 (CBSE)",
-  skillLevel: "Beginner",
-  interests: ["creating", "technology"],
-  skills: [
-    { name: "HTML", level: "Intermediate" },
-    { name: "CSS", level: "Intermediate" },
-    { name: "Figma", level: "Intermediate" },
-    { name: "Canva", level: "Intermediate" },
-    { name: "JavaScript", level: "Beginner" },
-    { name: "Wireframing", level: "Beginner" },
-  ],  careerGoal: "Become a professional UI/UX Designer",
-  targetCareer: "UI/UX Designer",
-  targetCareerId: "ui-ux-designer",
-  goalType: "Internship",
-  hoursPerWeek: 15,
-  createdAt: Date.now() - 1000 * 60 * 60 * 24 * 30,
-  skilldna: {
-    completedAt: Date.now() - 1000 * 60 * 60 * 24 * 14,
-    scores: [
-      { label: "Creativity", score: 92, icon: "PenTool" },
-      { label: "Technology", score: 84, icon: "Cpu" },
-      { label: "Problem Solving", score: 78, icon: "BrainCircuit" },
-      { label: "Communication", score: 76, icon: "MessageCircle" },
-      { label: "Hands-On", score: 71, icon: "Hammer" },
-    ],
-    matches: [
-      {
-        id: "ui-ux-designer",
-        title: "UI/UX Designer",
-        category: "Design",
-        match: 92,
-        salary: "₹4–12 LPA",
-        demand: "High",
-        why: { interests: 100, skills: 68, location: 92, experience: 80, problemSolving: 82 },
-        reasons: [
-          "Your interest in creating and technology maps directly to what UI/UX Designers do every day",
-          "You already have core skills — HTML, CSS and Figma — that transfer into this career",
-          "Your Class 12 background gives you a strong entry foundation",
-          "Strong High demand across your region with salaries from ₹4–12 LPA",
-        ],
-        skillsNeeded: ["Figma", "HTML", "CSS", "Design Thinking", "Wireframing", "Prototyping"],
-        missingSkills: ["Prototyping", "UX Research", "Design Thinking"],
-      },
-      {
-        id: "digital-marketer",
-        title: "Digital Marketing Specialist",
-        category: "Digital Marketing",
-        match: 86,
-        salary: "₹3–10 LPA",
-        demand: "High",
-        why: { interests: 80, skills: 55, location: 92, experience: 78, problemSolving: 75 },
-        reasons: [
-          "Your interest in creating aligns with content and social media work",
-          "Your Canva skills give you a creative edge for marketing assets",
-          "Strong High demand for digital marketing across India",
-        ],
-        skillsNeeded: ["SEO", "Social Media", "Copywriting", "Google Analytics", "Content Creation"],
-        missingSkills: ["SEO", "Google Analytics", "Copywriting"],
-      },
-      {
-        id: "web-developer",
-        title: "Web Developer",
-        category: "IT & Software",
-        match: 81,
-        salary: "₹3.5–12 LPA",
-        demand: "Very High",
-        why: { interests: 70, skills: 62, location: 92, experience: 76, problemSolving: 84 },
-        reasons: [
-          "Your technology interest and JavaScript basics translate well",
-          "HTML, CSS and JavaScript give you a running start",
-          "Very High demand with strong starting salaries",
-        ],
-        skillsNeeded: ["HTML", "CSS", "JavaScript", "React", "Git", "SQL"],
-        missingSkills: ["React", "Git", "SQL"],
-      },
-      {
-        id: "graphic-designer",
-        title: "Graphic Designer",
-        category: "Design",
-        match: 78,
-        salary: "₹2.5–8 LPA",
-        demand: "Medium",
-        why: { interests: 80, skills: 65, location: 92, experience: 74, problemSolving: 68 },
-        reasons: [
-          "Your strong creativity score and Canva skill fit graphic design",
-          "Visual design is your natural language",
-        ],
-        skillsNeeded: ["Canva", "Photoshop", "Illustrator", "Typography", "Branding"],
-        missingSkills: ["Photoshop", "Illustrator"],
-      },
-      {
-        id: "content-creator",
-        title: "Content Creator",
-        category: "Digital Marketing",
-        match: 74,
-        salary: "₹2–12 LPA",
-        demand: "High",
-        why: { interests: 60, skills: 58, location: 92, experience: 72, problemSolving: 65 },
-        reasons: ["Your creativity and communication scores support content work"],
-        skillsNeeded: ["Content Creation", "Video Editing", "Copywriting", "Social Media"],
-        missingSkills: ["Video Editing", "Copywriting"],
-      },
-    ],
-    topCareer: {
-      id: "ui-ux-designer",
-      title: "UI/UX Designer",
-      category: "Design",
-      match: 92,
-      salary: "₹4–12 LPA",
-      demand: "High",
-      why: { interests: 100, skills: 68, location: 92, experience: 80, problemSolving: 82 },
-      reasons: [],
-      skillsNeeded: ["Figma", "HTML", "CSS", "Design Thinking", "Wireframing", "Prototyping"],
-      missingSkills: ["Prototyping", "UX Research", "Design Thinking"],
-    },
-    summary:
-      "A natural beginner in Delhi, your strongest signal is creating and technology. You align most with UI/UX Designer at 92% because your interests, current skills and learning capacity fit the role's core demands. Your immediate focus: close the gap on Prototyping and UX Research through targeted training, then build 2 portfolio projects to unlock internships.",
-    answers: {
-      enjoys: ["creating", "technology"],
-      skillLevel: "Beginner",
-      location: "Delhi",
-      education: "Class 12",
-      goal: "Internship",
-      hours: 15,
-      interest: "Design",
-    },
-  },
-  xp: 1250,
-  level: 3,
-  badges: ["first-step", "course-complete", "resume-ready", "passport-holder"],
-  resumeHealth: 87,
-  avatarColor: "from-electric-500 to-sky-glow",
-};
-
-export const GUEST_USER: UserProfile = {
-  id: "guest",
-  name: "Guest Explorer",
-  email: "guest@skillindiahub.in",
-  location: "India",
-  city: "Delhi",
-  education: "Class 12",
-  skillLevel: "Beginner",
-  interests: [],
-  skills: [],
-  careerGoal: "",
-  targetCareer: "",
-  targetCareerId: "",
-  goalType: "Career Exploration",
-  hoursPerWeek: 8,
-  createdAt: Date.now(),
-  skilldna: null,
-  xp: 0,
-  level: 1,
-  badges: [],
-  resumeHealth: 0,
-  avatarColor: "from-electric-500 to-sky-glow",
-};
 
 type AuthContextType = {
   user: UserProfile | null;
   isHydrated: boolean;
   login: (data: { name: string; identifier: string; password: string }) => Promise<{ ok: boolean; error?: string }>;
   signup: (data: { name: string; identifier: string; password: string; city: string; education: string }) => Promise<{ ok: boolean; error?: string }>;
-  demoLogin: () => void;
-  guestLogin: () => void;
   logout: () => void;
   updateProfile: (patch: Partial<UserProfile>) => void;
   setSkillDNA: (result: SkillDNAResult) => void;
@@ -293,22 +128,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         // ignore malformed stored session
       }
       const newUser: UserProfile = {
-        ...DEMO_USER,
         id: uid("user"),
         name: account.name,
         email: account.email,
         mobile: account.mobile,
-        city: account.city,
         location: account.city,
+        city: account.city,
         education: account.education,
-        skilldna: null,
+        skillLevel: "Beginner",
+        interests: [],
+        skills: [],
+        careerGoal: "",
         targetCareer: "",
         targetCareerId: "",
-        careerGoal: "",
-        badges: [],
+        goalType: "Career Exploration",
+        hoursPerWeek: 10,
+        createdAt: Date.now(),
+        skilldna: null,
         xp: 0,
         level: 1,
+        badges: [],
         resumeHealth: 0,
+        avatarColor: "from-electric-500 to-sky-glow",
         ...progress,
       };
       persist(newUser);
@@ -358,14 +199,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
     [persist]
   );
-
-  const demoLogin = useCallback(() => {
-    persist({ ...DEMO_USER, id: "demo_aarav", email: "aarav@skillindiahub.demo" });
-  }, [persist]);
-
-  const guestLogin = useCallback(() => {
-    persist({ ...GUEST_USER, id: uid("guest"), name: "Guest Explorer", createdAt: Date.now() });
-  }, [persist]);
 
   const logout = useCallback(() => persist(null), [persist]);
 
@@ -439,15 +272,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       isHydrated,
       login,
       signup,
-      demoLogin,
-      guestLogin,
       logout,
       updateProfile,
       setSkillDNA,
       addXp,
       awardBadge,
     }),
-    [user, isHydrated, login, signup, demoLogin, guestLogin, logout, updateProfile, setSkillDNA, addXp, awardBadge, writeSession]
+    [user, isHydrated, login, signup, logout, updateProfile, setSkillDNA, addXp, awardBadge, writeSession]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
