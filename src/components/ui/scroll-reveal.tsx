@@ -22,13 +22,15 @@ export function GsapReveal({ children, className }: { children: ReactNode; class
     const ctx = gsap.context(() => {
       gsap.fromTo(
         targets,
-        { y: 44, opacity: 0 },
+        { y: 60, opacity: 0, scale: 0.9, rotateX: 10 },
         {
           y: 0,
           opacity: 1,
-          duration: 0.9,
-          ease: "power3.out",
-          stagger: 0.12,
+          scale: 1,
+          rotateX: 0,
+          duration: 1.2,
+          ease: "expo.out",
+          stagger: 0.15,
           scrollTrigger: {
             trigger: el,
             start: "top 85%",
@@ -55,8 +57,8 @@ export function GsapHero({ children, className }: { children: ReactNode; classNa
     if (!el) return;
 
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-      tl.fromTo(el.querySelectorAll("[data-hero]"), { y: 36, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, stagger: 0.14 }, 0.15);
+      const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
+      tl.fromTo(el.querySelectorAll("[data-hero]"), { y: 60, opacity: 0, scale: 0.95 }, { y: 0, opacity: 1, scale: 1, duration: 1.2, stagger: 0.15 }, 0.15);
     }, el);
 
     return () => ctx.revert();

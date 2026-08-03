@@ -180,14 +180,9 @@ export default function HiringPage() {
             <ButtonLink href="/login" variant="warm" className="w-full">
               <Icon name="User" size={15} /> {t("hiring.employeeLogin")}
             </ButtonLink>
-            <div className="grid grid-cols-2 gap-3">
-              <ButtonLink href="/signup" variant="secondary" className="w-full">
-                {t("hiring.createAccount")}
-              </ButtonLink>
-              <ButtonLink href="/login" variant="secondary" className="w-full">
-                {t("hiring.tryDemo")}
-              </ButtonLink>
-            </div>
+            <ButtonLink href="/signup" variant="secondary" className="w-full">
+              {t("hiring.createAccount")}
+            </ButtonLink>
           </div>
 
           <div className="mt-5 flex items-center gap-2 rounded-xl border border-mint-400/20 bg-mint-400/5 p-3 text-xs text-navy-200">

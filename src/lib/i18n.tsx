@@ -34,6 +34,7 @@ const en = {
   "nav.simulator": "Career Simulator",
   "nav.quests": "Skill Quests",
   "nav.search": "Search",
+  "nav.hiring": "Employers & Hiring",
 
   "hero.badge": "AI Career Platform · 2M+ young Indians discovering their path",
   "hero.title1": "Your Skills.",
@@ -115,8 +116,6 @@ const en = {
   "login.submit": "Sign In",
   "login.new": "New to Skill India Hub?",
   "login.create": "Create Account",
-  "login.demo": "Continue as Demo User",
-  "login.demoSub": "Aarav Sharma · Delhi · UI/UX Designer 92% match · full dashboard ready",
   "login.left.1": "AI matches you to careers with exact scores",
   "login.left.2": "A 6-month roadmap built around YOU",
   "login.left.3": "Resume, Skill Passport & opportunities in one place",
@@ -918,6 +917,7 @@ const hi: Record<TranslationKey, string> = {
   "nav.simulator": "करियर सिम्युलेटर",
   "nav.quests": "स्किल क्वेस्ट",
   "nav.search": "खोजें",
+  "nav.hiring": "नियोक्ता",
 
   "hero.badge": "एआई करियर प्लेटफ़ॉर्म · 2M+ युवा अपना रास्ता खोज रहे हैं",
   "hero.title1": "आपके कौशल।",
@@ -999,8 +999,6 @@ const hi: Record<TranslationKey, string> = {
   "login.submit": "साइन इन",
   "login.new": "क्या आप स्किल इंडिया हब पर नए हैं?",
   "login.create": "खाता बनाएं",
-  "login.demo": "डेमो यूज़र के रूप में जारी रखें",
-  "login.demoSub": "आरव शर्मा · दिल्ली · UI/UX डिज़ाइनर 92% मैच · पूरा डैशबोर्ड तैयार",
   "login.left.1": "AI आपको सटीक स्कोर के साथ करियर से मिलाता है",
   "login.left.2": "आपके लिए बना 6 महीने का रोडमैप",
   "login.left.3": "रिज़्यूमे, स्किल पासपोर्ट और अवसर — सब एक जगह",

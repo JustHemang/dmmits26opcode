@@ -23,6 +23,7 @@ const LINKS = [
   { href: "/internships", label: "nav.internships", icon: "Briefcase" },
   { href: "/jobs", label: "nav.jobs", icon: "Building2" },
   { href: "/radar", label: "nav.radar", icon: "Radar" },
+  { href: "/hiring", label: "nav.hiring", icon: "Users2" },
   { href: "/copilot", label: "nav.copilot", icon: "Bot" },
 ];
 
@@ -89,13 +90,13 @@ export function Navbar() {
   useEffect(() => {
     if (!overlayRef.current || !panelRef.current || !linksRef.current) return;
     const tl = gsap.timeline({ paused: true });
-    tl.fromTo(overlayRef.current, { clipPath: "inset(0% 0% 100% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.6, ease: "power4.inOut" })
-      .fromTo(panelRef.current, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, "-=0.25")
+    tl.fromTo(overlayRef.current, { clipPath: "inset(0% 0% 100% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.7, ease: "expo.inOut" })
+      .fromTo(panelRef.current, { y: 40, opacity: 0, scale: 0.95 }, { y: 0, opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.2)" }, "-=0.3")
       .fromTo(
         linksRef.current?.children ?? [],
-        { y: 28, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.45, stagger: 0.055, ease: "power3.out" },
-        "-=0.2"
+        { y: 40, opacity: 0, scale: 0.9 },
+        { y: 0, opacity: 1, scale: 1, duration: 0.6, stagger: 0.08, ease: "back.out(1.5)" },
+        "-=0.4"
       );
     tlRef.current = tl;
     return () => {
@@ -244,19 +245,23 @@ export function Navbar() {
             onClick={() => (menuOpen ? setMenuOpen(false) : openMenu())}
             aria-label={t("nav.toggleMenu")}
             aria-expanded={menuOpen}
-            className="relative grid h-10 w-10 place-items-center overflow-hidden rounded-xl text-navy-200 transition-colors hover:bg-white/5 hover:text-white cursor-pointer"
+            className="relative flex h-10 w-10 flex-col items-center justify-center gap-1.5 overflow-hidden rounded-xl text-navy-200 transition-colors hover:bg-white/5 hover:text-white cursor-pointer"
           >
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.span
-                key={menuOpen ? "close" : "menu"}
-                initial={{ rotate: -90, opacity: 0, scale: 0.6 }}
-                animate={{ rotate: 0, opacity: 1, scale: 1 }}
-                exit={{ rotate: 90, opacity: 0, scale: 0.6 }}
-                transition={{ duration: 0.2 }}
-              >
-                <Icon name={menuOpen ? "X" : "Menu"} size={21} />
-              </motion.span>
-            </AnimatePresence>
+            <motion.span
+              animate={menuOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
+              transition={{ type: "spring", stiffness: 260, damping: 20 }}
+              className="h-[2px] w-5 rounded-full bg-current origin-center"
+            />
+            <motion.span
+              animate={menuOpen ? { opacity: 0, scale: 0.5 } : { opacity: 1, scale: 1 }}
+              transition={{ type: "spring", stiffness: 260, damping: 20 }}
+              className="h-[2px] w-5 rounded-full bg-current origin-center"
+            />
+            <motion.span
+              animate={menuOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
+              transition={{ type: "spring", stiffness: 260, damping: 20 }}
+              className="h-[2px] w-5 rounded-full bg-current origin-center"
+            />
           </button>
         </div>
       </div>
