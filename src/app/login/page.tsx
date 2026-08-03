@@ -18,7 +18,7 @@ let buttonNav = false;
 
 function LoginForm() {
   const router = useRouter();
-  const { login, user } = useAuth();
+  const { login, demoLogin, user } = useAuth();
   const { toast } = useStore();
   const { t } = useLang();
   const [mode, setMode] = useState<"mobile" | "email">("mobile");
@@ -214,6 +214,20 @@ function LoginForm() {
               {t("login.create")}
             </Link>
           </p>
+
+          <div className="mt-6 border-t border-white/10 pt-6">
+            <Button
+              type="button"
+              variant="secondary"
+              className="w-full"
+              onClick={() => {
+                demoLogin();
+                router.push("/dashboard");
+              }}
+            >
+              <Icon name="TestTube" size={15} /> Continue as Demo User
+            </Button>
+          </div>
 
           <div className="mt-6 border-t border-white/10 pt-6 text-center">
             <p className="text-sm text-navy-300">

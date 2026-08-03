@@ -146,6 +146,25 @@ export default function HiringPage() {
             >
               {mode === "login" ? t("hiring.toSignup") : t("hiring.toLogin")}
             </button>
+
+            <div className="mt-6 border-t border-white/10 pt-6">
+              <Button
+                variant="secondary"
+                className="w-full"
+                onClick={() => {
+                  setEmployerSession({
+                    name: "Demo Employer",
+                    email: "hr@demo.company",
+                    company: "Acme Corp",
+                    passwordHash: "demo",
+                    createdAt: Date.now(),
+                  });
+                  router.push("/hiring/employer");
+                }}
+              >
+                <Icon name="TestTube" size={15} /> Try Employer Demo
+              </Button>
+            </div>
           </div>
         </motion.div>
 

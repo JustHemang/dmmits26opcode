@@ -51,6 +51,42 @@ function loadProgressRecord(key: string): UserProfile | null {
 }
 
 
+export const DEMO_USER: UserProfile = {
+  id: "demo_1",
+  name: "Aarav Sharma",
+  email: "aarav.sharma@example.com",
+  location: "India",
+  city: "Mumbai",
+  education: "Class 12",
+  skillLevel: "Beginner",
+  interests: [],
+  skills: [
+    { name: "Communication", level: "Beginner", verified: false, sources: [] },
+    { name: "Computer Literacy", level: "Intermediate", verified: false, sources: [] },
+  ],
+  careerGoal: "Software Developer",
+  targetCareer: "Software Developer",
+  targetCareerId: "soft_dev",
+  goalType: "Get a Job",
+  hoursPerWeek: 15,
+  createdAt: Date.now(),
+  skilldna: {
+    traits: [
+      { id: "analytical", score: 85, category: "cognitive" },
+      { id: "creative", score: 60, category: "cognitive" },
+      { id: "leadership", score: 45, category: "social" }
+    ],
+    strengths: ["Problem Solving", "Logical Reasoning"],
+    weaknesses: ["Public Speaking"],
+    recommendedPaths: ["Software Developer", "Data Analyst"]
+  },
+  xp: 150,
+  level: 2,
+  badges: ["early_adopter"],
+  resumeHealth: 45,
+  avatarColor: "from-blue-500 to-indigo-500",
+};
+
 export const GUEST_USER = {
   id: "guest",
   name: "Guest Explorer",
@@ -79,6 +115,7 @@ type AuthContextType = {
   user: UserProfile | null;
   isHydrated: boolean;
   login: (data: { name: string; identifier: string; password: string }) => Promise<{ ok: boolean; error?: string }>;
+  demoLogin: () => void;
   signup: (data: { name: string; identifier: string; password: string; city: string; education: string }) => Promise<{ ok: boolean; error?: string }>;
   logout: () => void;
   updateProfile: (patch: Partial<UserProfile>) => void;
@@ -181,6 +218,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
     [persist]
   );
+
+  const demoLogin = useCallback(() => {
+    persist(DEMO_USER);
+  }, [persist]);
 
   const signup = useCallback(
     async (data: { name: string; identifier: string; password: string; city: string; education: string }) => {
@@ -295,6 +336,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       user,
       isHydrated,
       login,
+      demoLogin,
       signup,
       logout,
       updateProfile,
@@ -302,7 +344,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       addXp,
       awardBadge,
     }),
-    [user, isHydrated, login, signup, logout, updateProfile, setSkillDNA, addXp, awardBadge, writeSession]
+    [user, isHydrated, login, demoLogin, signup, logout, updateProfile, setSkillDNA, addXp, awardBadge, writeSession]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
