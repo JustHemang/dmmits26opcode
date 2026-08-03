@@ -351,19 +351,74 @@ export default function EmployerPage() {
       </div>
 
       {tab === "applicants" && (
-        <div className="mt-4">
+        <div className="mt-8">
           {activeOrdered.length === 0 ? (
-            <div className="glass rounded-2xl p-12 text-center">
-              <Icon name="Users2" size={32} className="mx-auto text-navy-400" />
-              <p className="mt-4 font-semibold text-white">{t("hire.emptyApplicants")}</p>
-              <p className="mx-auto mt-1 max-w-sm text-sm text-navy-300">{t("hire.emptyApplicantsSub")}</p>
-              <Button className="mt-6" onClick={() => { setTab("openings"); setPosting(true); }}>
-                <Icon name="Plus" size={15} /> {t("hire.postJob")}
+            <div className="glass rounded-[2rem] p-16 text-center">
+              <div className="mx-auto mb-6 grid h-24 w-24 place-items-center rounded-full bg-electric-500/10 shadow-glow-blue border border-electric-400/20">
+                <Icon name="Users2" size={40} className="text-electric-400" />
+              </div>
+              <p className="mt-4 text-2xl font-bold text-white">{t("hire.emptyApplicants")}</p>
+              <p className="mx-auto mt-2 max-w-md text-navy-300">{t("hire.emptyApplicantsSub")}</p>
+              <Button className="mt-8" onClick={() => { setTab("openings"); setPosting(true); }}>
+                <Icon name="Plus" size={16} /> {t("hire.postJob")}
               </Button>
             </div>
           ) : (
-            <div className="space-y-3">
-              {activeOrdered.map(renderApplicant)}
+            <div className="flex gap-6 overflow-x-auto pb-8 snap-x scrollbar-thin scrollbar-track-white/5 scrollbar-thumb-white/10">
+              {[
+                { id: "applied", label: "New Applied", statuses: ["applied"], color: "bg-blue-500/10 text-blue-400 border-blue-500/20" },
+                { id: "reviewing", label: "Under Review", statuses: ["shortlisted"], color: "bg-saffron-500/10 text-saffron-400 border-saffron-500/20" },
+                { id: "interview", label: "Interviews", statuses: ["interview", "interviewed"], color: "bg-electric-500/10 text-electric-300 border-electric-500/20" },
+                { id: "selected", label: "Selected", statuses: ["hired"], color: "bg-mint-500/10 text-mint-400 border-mint-500/20" },
+              ].map((column) => {
+                const columnApps = activeOrdered.filter(a => column.statuses.includes(a.application.status));
+                return (
+                  <div key={column.id} className="flex flex-col min-w-[320px] max-w-[320px] snap-center">
+                    <div className="mb-4 flex items-center justify-between">
+                      <h3 className="text-sm font-bold text-white">{column.label}</h3>
+                      <span className={`inline-flex items-center justify-center rounded-full border px-2.5 py-0.5 text-xs font-bold ${column.color}`}>
+                        {columnApps.length}
+                      </span>
+                    </div>
+                    
+                    <div className="flex flex-col gap-4 min-h-[400px] rounded-2xl bg-white/2 p-3 border border-white/5">
+                      {columnApps.map((row) => (
+                        <div key={row.application.id} className="flex flex-col gap-3 rounded-xl border border-white/10 bg-navy-900/50 p-4 shadow-lg backdrop-blur-md transition-all hover:border-white/20 hover:bg-white/5 hover:scale-[1.02]">
+                          <div className="flex items-start gap-3">
+                            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-electric-500 to-sky-glow text-xs font-bold text-white shadow-glow-blue">
+                              {initials(row.detail.name)}
+                            </span>
+                            <div className="min-w-0 flex-1">
+                              <p className="truncate font-bold text-white">{row.detail.name}</p>
+                              <p className="truncate text-xs text-navy-300">
+                                {row.job ? <span className="font-medium text-electric-300">{row.job.title}</span> : null}
+                              </p>
+                              <p className="truncate text-xs text-navy-400 mt-0.5">
+                                {row.detail.city}
+                              </p>
+                            </div>
+                          </div>
+                          
+                          <div className="flex flex-wrap gap-1.5 mt-1">
+                            {(row.detail.skills.length ? row.detail.skills : ["SkillDNA pending"]).slice(0, 3).map((s) => (
+                              <span key={s} className="rounded-md bg-white/5 px-2 py-0.5 text-[10px] font-medium text-navy-200">{s}</span>
+                            ))}
+                            {row.detail.skills.length > 3 && (
+                              <span className="rounded-md bg-white/5 px-2 py-0.5 text-[10px] font-medium text-navy-400">+{row.detail.skills.length - 3}</span>
+                            )}
+                          </div>
+                          
+                          <div className="mt-2 border-t border-white/5 pt-3">
+                            <div className="flex flex-col gap-2">
+                              {actionButtons(row)}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>

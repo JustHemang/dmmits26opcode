@@ -27,11 +27,15 @@ export function Hero() {
   const { t } = useLang();
   return (
     <section className="relative px-4 pb-20 pt-32 sm:px-6 lg:pt-40">
-      <div className="aurora-orb left-[-120px] top-24 h-72 w-72 bg-electric-500/25" aria-hidden="true" />
-      <div className="aurora-orb right-[-80px] top-1/2 h-64 w-64 bg-saffron-500/20" style={{ animationDelay: "-5s" }} aria-hidden="true" />
-      <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[1.05fr_1fr]">
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-electric-400/30 bg-electric-500/10 px-4 py-1.5 text-xs font-medium text-electric-300">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+        <div className="aurora-orb left-1/2 top-1/4 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 bg-electric-500/20 blur-[120px]" />
+        <div className="aurora-orb left-1/3 top-1/2 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 bg-sky-glow/15 blur-[100px]" style={{ animationDelay: "-3s" }} />
+        <div className="aurora-orb left-2/3 top-2/3 h-[450px] w-[450px] -translate-x-1/2 -translate-y-1/2 bg-mint-500/15 blur-[100px]" style={{ animationDelay: "-6s" }} />
+      </div>
+
+      <div className="relative mx-auto max-w-5xl text-center">
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.21, 0.47, 0.32, 0.98] }}>
+          <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-electric-400/30 bg-electric-500/10 px-4 py-1.5 text-xs font-medium text-electric-300 backdrop-blur-md">
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-mint-400 opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-mint-400" />
@@ -39,105 +43,61 @@ export function Hero() {
             {t("hero.badge")}
           </div>
 
-          <h1 className="text-5xl font-extrabold leading-[1.04] tracking-tight text-white sm:text-6xl lg:text-7xl">
-            {t("hero.title1")}
+          <h1 className="text-5xl font-extrabold leading-[1.1] tracking-tight text-white sm:text-7xl lg:text-[5rem]">
+            {t("hero.title1")} {t("hero.title2")}
             <br />
-            {t("hero.title2")}
-            <br />
-            <span className="text-gradient">{t("hero.title3")}</span>
+            <span className="text-gradient bg-gradient-to-r from-electric-300 via-sky-glow to-mint-400">{t("hero.title3")}</span>
           </h1>
 
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-navy-300">{t("hero.subtitle")}</p>
+          <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-navy-300 sm:text-xl">
+            {t("hero.subtitle")}
+          </p>
 
-          <div className="mt-9 flex flex-wrap items-center gap-4">
-            <ButtonLink href="/skilldna" size="lg" className="shine">
-              <Icon name="Sparkles" size={18} /> {t("hero.ctaPrimary")}
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+            <ButtonLink href="/skilldna" size="lg" className="shine min-w-[200px] justify-center text-base">
+              <Icon name="Sparkles" size={20} /> {t("hero.ctaPrimary")}
             </ButtonLink>
-            <ButtonLink href="/opportunities" variant="secondary" size="lg">
-              {t("hero.ctaSecondary")} <Icon name="ArrowRight" size={17} />
+            <ButtonLink href="/opportunities" variant="secondary" size="lg" className="min-w-[200px] justify-center text-base border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md">
+              {t("hero.ctaSecondary")} <Icon name="ArrowRight" size={18} />
             </ButtonLink>
           </div>
 
-          <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
+          <div className="mx-auto mt-16 flex max-w-3xl flex-wrap items-center justify-center gap-x-12 gap-y-8 border-t border-white/10 pt-10">
             {[
               { n: "2M+", l: t("hero.stat1") },
               { n: "14", l: t("hero.stat2") },
               { n: "3,500+", l: t("hero.stat3") },
               { n: "87", l: t("hero.stat4") },
             ].map((s, i) => (
-              <motion.div key={s.l} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 + i * 0.12 }}>
-                <p className="text-2xl font-bold text-white">{s.n}</p>
-                <p className="text-xs text-navy-400">{s.l}</p>
+              <motion.div key={s.l} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 + i * 0.1, ease: "easeOut" }}>
+                <p className="text-3xl font-extrabold text-white sm:text-4xl">{s.n}</p>
+                <p className="mt-1 text-xs font-medium uppercase tracking-wider text-navy-400">{s.l}</p>
               </motion.div>
             ))}
           </div>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.94 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.15 }}
-          className="relative"
-          aria-hidden="true"
-        >
-          <div className="relative mx-auto max-w-md">
-            <div className="animate-pulse-glow absolute inset-0 -z-10 rounded-[2.5rem] bg-gradient-to-br from-electric-500/30 via-sky-glow/20 to-saffron-500/20 blur-2xl" />
-
-            <div className="hero-halo glass rounded-[2rem] p-6 sm:p-8">
-              <div className="mb-6 flex items-center justify-between">
-                <p className="text-sm font-semibold text-white">{t("dash.journey")}</p>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-mint-400/15 px-2.5 py-1 text-xs font-medium text-mint-400">
-                  <Icon name="BrainCircuit" size={13} /> {t("home.hero.aiGuided")}
-                </span>
-              </div>
-
-              <div className="space-y-3">
-                {JOURNEY.map((step, i) => (
-                  <motion.div
-                    key={step.labelKey}
-                    initial={{ opacity: 0, x: 24 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.4 + i * 0.18 }}
-                    className="relative flex items-center gap-4"
-                  >
-                    <div className="flex flex-col items-center">
-                      <span className={`grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-gradient-to-br text-white shadow-lg ${step.color}`}>
-                        <Icon name={step.icon} size={19} />
-                      </span>
-                      {i < JOURNEY.length - 1 && <span className="mt-1 h-5 w-px bg-gradient-to-b from-electric-400/60 to-transparent" />}
-                    </div>
-                    <div className="rounded-xl border border-white/10 bg-white/4 px-4 py-2">
-                      <p className="text-sm font-bold tracking-wide text-white">{t(step.labelKey as never)}</p>
-                      <p className="text-xs text-navy-400">{t(step.descKey as never)}</p>
-                    </div>
-                    <span className="ml-auto text-xs font-semibold text-electric-300">0{i + 1}</span>
-                  </motion.div>
-                ))}
+        {/* Floating background elements for depth */}
+        {FLOATING.map((card) => (
+          <motion.div
+            key={card.titleKey}
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.8 + card.delay, type: "spring", stiffness: 100, damping: 20 }}
+            className="glass-strong absolute hidden sm:flex -z-10 animate-float opacity-40 hover:opacity-100 transition-opacity"
+            style={card.top ? { top: card.top, right: card.right } : { bottom: card.bottom, left: card.right }} // Reusing right as left for bottom ones to balance
+          >
+            <div className="flex items-center gap-3 rounded-2xl p-3">
+              <span className={`grid h-8 w-8 place-items-center rounded-xl bg-white/10 ${card.color}`}>
+                <Icon name={card.icon} size={15} />
+              </span>
+              <div className="text-left">
+                <p className="text-[11px] font-bold text-white">{t(card.titleKey as never)}</p>
+                <p className="text-[9px] text-navy-400">{t(card.subKey as never)}</p>
               </div>
             </div>
-
-            {FLOATING.map((card) => (
-              <motion.div
-                key={card.titleKey}
-                initial={{ opacity: 0, scale: 0.7 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.9 + card.delay, type: "spring", stiffness: 200, damping: 18 }}
-                className="glass-strong absolute hidden sm:block"
-                style={card.top ? { top: card.top, right: card.right } : { bottom: card.bottom, right: card.right }}
-              >
-                <div className="animate-float flex w-48 items-center gap-3 rounded-2xl p-3.5" style={{ animationDelay: `${card.delay}s` }}>
-                  <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-white/8 ${card.color}`}>
-                    <Icon name={card.icon} size={17} />
-                  </span>
-                  <div>
-                    <p className="text-xs font-bold text-white">{t(card.titleKey as never)}</p>
-                    <p className="text-[11px] text-navy-400">{t(card.subKey as never)}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+          </motion.div>
+        ))}
       </div>
     </section>
   );
