@@ -232,13 +232,21 @@ export function Navbar() {
               </span>
             </Link>
           ) : (
-            <Link
-              href="/login"
-              onClick={() => sessionStorage.setItem("sih_login_nav", "1")}
-              className="hidden rounded-xl bg-gradient-to-r from-electric-500 to-sky-glow px-4 py-2 text-sm font-medium text-white shadow-glow-blue transition-all hover:brightness-110 sm:block"
-            >
-              {t("nav.signIn")}
-            </Link>
+            <div className="hidden sm:flex items-center gap-2">
+              <Link
+                href="/hiring"
+                className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-white/10"
+              >
+                Employers
+              </Link>
+              <Link
+                href="/login"
+                onClick={() => sessionStorage.setItem("sih_login_nav", "1")}
+                className="rounded-xl bg-gradient-to-r from-electric-500 to-sky-glow px-4 py-2 text-sm font-medium text-white shadow-glow-blue transition-all hover:brightness-110"
+              >
+                {t("nav.signIn")}
+              </Link>
+            </div>
           )}
 
           <button

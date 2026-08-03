@@ -215,6 +215,15 @@ function LoginForm() {
             </Link>
           </p>
 
+          <div className="mt-6 border-t border-white/10 pt-6 text-center">
+            <p className="text-sm text-navy-300">
+              Are you an employer?{" "}
+              <Link href="/hiring" className="font-semibold text-saffron-400 transition-colors hover:text-white">
+                Log in here
+              </Link>
+            </p>
+          </div>
+
 
         </div>
       </div>
