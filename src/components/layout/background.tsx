@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 export function Background({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative min-h-screen overflow-x-clip bg-navy-950">
+    <div className="relative flex min-h-screen flex-col overflow-x-clip bg-navy-950">
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div className="grid-bg absolute inset-0 opacity-60" />
         <div className="absolute -top-32 left-1/2 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-electric-500/12 blur-[140px]" />

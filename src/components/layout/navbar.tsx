@@ -418,6 +418,7 @@ function LogoutButton({ onDone }: { onDone?: () => void }) {
         logout();
         onDone?.();
         toast(t("prof.signedOut"), { kind: "info" });
+        window.location.href = "/";
       }}
       className="flex items-center gap-2 rounded-xl border border-rose-400/30 bg-rose-glow/10 px-3 py-2 text-xs font-medium text-rose-300 transition-colors hover:bg-rose-glow/20 cursor-pointer"
     >

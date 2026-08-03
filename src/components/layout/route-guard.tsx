@@ -17,12 +17,12 @@ export function RouteGuard({ children }: { children: ReactNode }) {
     if (PUBLIC_ROUTES.includes(pathname)) return;
     let target: string | null = null;
 
-    if (pathname === "/skilldna") {
+    if (pathname === "/") {
+      if (user && !user.skilldna) target = "/skilldna";
+    } else if (pathname === "/skilldna") {
       if (!user) target = "/login?from=/skilldna";
     } else if (AUTH_ROUTES.includes(pathname)) {
       if (user) target = user.skilldna ? "/dashboard" : "/skilldna";
-    } else if (pathname === "/") {
-      if (user && !user.skilldna) target = "/skilldna";
     } else if (!user) {
       target = "/login?from=" + encodeURIComponent(pathname);
     } else if (!user.skilldna) {

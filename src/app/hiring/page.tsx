@@ -151,10 +151,50 @@ export default function HiringPage() {
               <Button
                 variant="secondary"
                 className="w-full"
-                onClick={() => {
+                onClick={async () => {
+                  const demoEmail = "hr@demo.company";
+                  const { listEmployerJobs, saveEmployerJobs } = await import("@/lib/db");
+                  
+                  const existingJobs = listEmployerJobs(demoEmail);
+                  if (existingJobs.length === 0) {
+                    const { uid } = await import("@/lib/utils");
+                    const { applyToPostedJob } = await import("@/lib/db");
+                    const j1 = {
+                      id: uid("job"),
+                      employerEmail: demoEmail,
+                      title: "Frontend Developer",
+                      company: "Acme Corp",
+                      location: "Bangalore",
+                      type: "Full-time",
+                      remote: true,
+                      salary: "₹8L - ₹12L",
+                      skills: ["React", "TypeScript", "Tailwind CSS"],
+                      description: "We are looking for a skilled Frontend Developer to join our dynamic team...",
+                      createdAt: Date.now(),
+                    };
+                    const j2 = {
+                      id: uid("job"),
+                      employerEmail: demoEmail,
+                      title: "Marketing Intern",
+                      company: "Acme Corp",
+                      location: "Mumbai",
+                      type: "Internship",
+                      remote: false,
+                      salary: "₹20k/month",
+                      skills: ["SEO", "Content Writing", "Social Media"],
+                      description: "Join our marketing team as an intern and help us grow our brand presence.",
+                      createdAt: Date.now() - 100000,
+                    };
+                    saveEmployerJobs(demoEmail, [j1, j2]);
+                    
+                    // Pre-populate some dummy applicants
+                    applyToPostedJob(j1, { name: "Priya Sharma", email: "priya@example.com" });
+                    applyToPostedJob(j2, { name: "Rahul Verma", email: "rahul@example.com" });
+                  }
+
                   setEmployerSession({
                     name: "Demo Employer",
-                    email: "hr@demo.company",
+                    email: demoEmail,
                     company: "Acme Corp",
                     passwordHash: "demo",
                     createdAt: Date.now(),

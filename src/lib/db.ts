@@ -249,7 +249,13 @@ export type JobApplication = {
   employerEmail: string;
   seekerEmail: string;
   seekerName: string;
-  status: "applied" | "shortlisted" | "interview" | "hired" | "rejected";
+  status: "applied" | "shortlisted" | "interview" | "interviewed" | "hired" | "rejected";
+  aiInterviewData?: {
+    transcript: string;
+    score: number;
+    technicalScore: number;
+    verdict: string;
+  };
   appliedAt: number;
   updatedAt: number;
 };
@@ -362,6 +368,25 @@ export function applyToPostedJob(
 export function setJobApplicationStatus(appId: string, status: JobApplication["status"]) {
   const apps = loadJobApplications();
   saveJobApplications(apps.map((a) => (a.id === appId ? { ...a, status, updatedAt: Date.now() } : a)));
+}
+
+export function submitAiInterview(
+  appId: string,
+  data: { transcript: string; score: number; technicalScore: number; verdict: string }
+) {
+  const apps = loadJobApplications();
+  saveJobApplications(
+    apps.map((a) =>
+      a.id === appId
+        ? {
+            ...a,
+            status: "interviewed",
+            aiInterviewData: data,
+            updatedAt: Date.now(),
+          }
+        : a
+    )
+  );
 }
 
 export function getProgressByEmail(email: string): UserProfileLike | null {

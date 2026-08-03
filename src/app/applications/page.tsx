@@ -7,6 +7,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { Badge } from "@/components/ui/primitives";
 import { Icon } from "@/components/ui/icon";
 import { useStore } from "@/lib/store";
+import { useAuth } from "@/lib/auth";
 import { useLang } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import type { Application } from "@/types";
@@ -24,8 +25,36 @@ const STATUS_TONE: Record<Application["status"], "blue" | "warm" | "green" | "re
 
 export default function ApplicationsPage() {
   const { applications, updateApplication, removeApplication } = useStore();
+  const { user } = useAuth();
   const { t } = useLang();
   const [filter, setFilter] = useState<Application["status"] | "All">("All");
+
+  const [realApps, setRealApps] = useState<any[]>([]);
+
+  import("@/lib/db").then(({ listJobApplications }) => {
+    if (!user) return;
+    const allRealApps = listJobApplications();
+    const myRealApps = allRealApps.filter((a) => a.seekerEmail.toLowerCase().trim() === user.email.toLowerCase().trim());
+    setRealApps(myRealApps);
+    const statusMap: Record<string, Application["status"]> = {
+      "applied": "Applied",
+      "shortlisted": "Under Review",
+      "interview": "Interview",
+      "interviewed": "Interview", // Still show as interview until employer hires
+      "hired": "Selected",
+      "rejected": "Rejected"
+    };
+
+    applications.forEach((loc) => {
+      const real = myRealApps.find((ra) => ra.jobId === loc.opportunityId);
+      if (real) {
+        const mappedStatus = statusMap[real.status];
+        if (mappedStatus && mappedStatus !== loc.status) {
+          updateApplication(loc.id, mappedStatus);
+        }
+      }
+    });
+  });
 
   const counts = useMemo(() => {
     const c: Record<string, number> = { All: applications.length };
@@ -122,6 +151,27 @@ export default function ApplicationsPage() {
                       ))}
                     </div>
                   )}
+                  {a.status === "Interview" && (() => {
+                    const realApp = realApps.find(ra => ra.jobId === a.opportunityId);
+                    if (!realApp) return null;
+                    if (realApp.status === "interview") {
+                      return (
+                        <a 
+                          href={`/interview?appId=${realApp.id}`}
+                          className="ml-2 inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-electric-500 to-sky-glow px-4 py-2 text-sm font-semibold text-white shadow-glow-blue transition-all hover:brightness-110"
+                        >
+                          <Icon name="Mic" size={15} /> Join AI Interview
+                        </a>
+                      );
+                    } else if (realApp.status === "interviewed") {
+                      return (
+                        <span className="ml-2 inline-flex items-center gap-1.5 rounded-xl bg-green-500/10 px-4 py-2 text-sm font-semibold text-green-400">
+                          <Icon name="CheckCircle2" size={15} /> AI Interview Completed
+                        </span>
+                      );
+                    }
+                    return null;
+                  })()}
                   <button
                     onClick={() => removeApplication(a.id)}
                     aria-label="Remove application"

@@ -90,10 +90,11 @@ function day(ts: number) {
   return new Date(ts).toLocaleDateString("en-IN", { day: "numeric", month: "short" });
 }
 
-const STATUS_BADGE: Record<JobApplication["status"], { label: TranslationKey; tone: "blue" | "green" | "warm" | "red" | "neutral" }> = {
+const STATUS_BADGE: Record<JobApplication["status"], { label: TranslationKey | string; tone: "blue" | "green" | "warm" | "red" | "neutral" }> = {
   applied: { label: "hire.applied", tone: "blue" },
   shortlisted: { label: "hire.shortlisted", tone: "warm" },
   interview: { label: "hire.interviews", tone: "warm" },
+  interviewed: { label: "AI Interview Done", tone: "green" },
   hired: { label: "hire.hired", tone: "green" },
   rejected: { label: "hire.rejected", tone: "red" },
 };
@@ -111,6 +112,7 @@ export default function EmployerPage() {
   const [posting, setPosting] = useState(false);
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
   const [form, setForm] = useState({ title: "", role: "IT & Software", city: "Delhi", salary: "₹3.5 LPA", skills: "" });
+  const [scorecard, setScorecard] = useState<JobApplication | null>(null);
 
   useEffect(() => {
     const emp = getEmployerSession();
@@ -233,15 +235,30 @@ export default function EmployerPage() {
         )}
         {app.status === "shortlisted" && (
           <Button size="sm" onClick={() => setStatus(app, "interview")}>
-            <Icon name="MessageCircle" size={13} /> {t("hire.interviews")}
+            <Icon name="Mic" size={13} /> Invite to AI Interview
           </Button>
         )}
-        <Button size="sm" variant="warm" onClick={() => hire(app)}>
-          <Icon name="PartyPopper" size={13} /> {t("hire.hire")}
-        </Button>
-        <Button size="sm" variant="ghost" onClick={() => setStatus(app, "rejected")}>
-          <Icon name="X" size={13} /> {t("hire.rejectCandidate")}
-        </Button>
+        {app.status === "interview" && (
+          <Badge tone="warm"><Icon name="Clock" size={13} /> Waiting for AI Interview</Badge>
+        )}
+        {app.status === "interviewed" && (
+          <div className="flex items-center gap-2">
+            <Badge tone="green"><Icon name="CheckCircle" size={13} /> AI Score: {app.aiInterviewData?.score}%</Badge>
+            <Button size="sm" onClick={() => setScorecard(app)}>
+              <Icon name="FileText" size={13} /> View Scorecard
+            </Button>
+          </div>
+        )}
+        {(app.status === "shortlisted" || app.status === "interviewed") && (
+          <Button size="sm" variant="warm" onClick={() => hire(app)}>
+            <Icon name="PartyPopper" size={13} /> {t("hire.hire")}
+          </Button>
+        )}
+        {app.status !== "interviewed" && app.status !== "interview" && (
+          <Button size="sm" variant="ghost" onClick={() => setStatus(app, "rejected")}>
+            <Icon name="X" size={13} /> {t("hire.rejectCandidate")}
+          </Button>
+        )}
         <a
           href={`mailto:${app.seekerEmail}?subject=${encodeURIComponent(`Opportunity at ${row.job?.company ?? employer.company}`)}`}
           className="inline-flex items-center gap-1.5 rounded-lg border border-electric-400/40 px-2.5 py-1.5 text-xs font-medium text-electric-300 transition-colors hover:bg-electric-500/10"
@@ -484,6 +501,54 @@ export default function EmployerPage() {
       <p className="mt-8 text-center text-xs text-navy-400">
         {t("hire.savedNote")}
       </p>
+
+      {scorecard && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-navy-950/80 p-4 backdrop-blur-sm">
+          <div className="glass w-full max-w-lg overflow-hidden rounded-2xl p-6">
+            <div className="mb-6 flex items-center justify-between">
+              <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                <Icon name="BrainCircuit" size={24} className="text-electric-300" /> AI Interview Scorecard
+              </h3>
+              <button onClick={() => setScorecard(null)} className="text-navy-300 hover:text-white">
+                <Icon name="X" size={20} />
+              </button>
+            </div>
+            
+            <div className="mb-6 grid grid-cols-2 gap-4">
+              <div className="rounded-xl bg-white/5 p-4 text-center">
+                <p className="text-xs font-semibold uppercase text-navy-400 mb-1">Overall Score</p>
+                <p className="text-3xl font-bold text-mint-400">{scorecard.aiInterviewData?.score}%</p>
+              </div>
+              <div className="rounded-xl bg-white/5 p-4 text-center">
+                <p className="text-xs font-semibold uppercase text-navy-400 mb-1">Tech Relevance</p>
+                <p className="text-3xl font-bold text-sky-400">{scorecard.aiInterviewData?.technicalScore}%</p>
+              </div>
+            </div>
+
+            <div className="mb-6 rounded-xl bg-white/5 p-4">
+              <p className="text-xs font-semibold uppercase text-navy-400 mb-2">AI Verdict</p>
+              <div className="flex items-center gap-2 text-lg font-semibold text-white">
+                <Icon name={scorecard.aiInterviewData?.score! > 85 ? "Award" : "ThumbsUp"} size={20} className="text-saffron-400" />
+                {scorecard.aiInterviewData?.verdict}
+              </div>
+            </div>
+
+            <div className="mb-6">
+              <p className="text-xs font-semibold uppercase text-navy-400 mb-2">Full Transcript</p>
+              <div className="max-h-48 overflow-y-auto rounded-xl bg-white/5 p-4 text-sm leading-relaxed text-navy-200">
+                "{scorecard.aiInterviewData?.transcript}"
+              </div>
+            </div>
+
+            <Button className="w-full" variant="warm" onClick={() => {
+              hire(scorecard);
+              setScorecard(null);
+            }}>
+              <Icon name="PartyPopper" size={16} /> Hire Candidate Now
+            </Button>
+          </div>
+        </div>
+      )}
     </PageShell>
   );
 }

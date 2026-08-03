@@ -42,7 +42,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 <Background>
                   <ScrollProgress />
                   <Navbar />
-                  <main className="relative z-10">
+                  <main className="relative z-10 flex-1">
                     <RouteGuard>{children}</RouteGuard>
                   </main>
                   <Footer />
