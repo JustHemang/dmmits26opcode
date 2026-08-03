@@ -61,25 +61,16 @@ export const DEMO_USER: UserProfile = {
   skillLevel: "Beginner",
   interests: [],
   skills: [
-    { name: "Communication", level: "Beginner", verified: false, sources: [] },
-    { name: "Computer Literacy", level: "Intermediate", verified: false, sources: [] },
+    { name: "Communication", level: "Beginner" },
+    { name: "Computer Literacy", level: "Intermediate" },
   ],
   careerGoal: "Software Developer",
   targetCareer: "Software Developer",
   targetCareerId: "soft_dev",
-  goalType: "Get a Job",
+  goalType: "Job",
   hoursPerWeek: 15,
   createdAt: Date.now(),
-  skilldna: {
-    traits: [
-      { id: "analytical", score: 85, category: "cognitive" },
-      { id: "creative", score: 60, category: "cognitive" },
-      { id: "leadership", score: 45, category: "social" }
-    ],
-    strengths: ["Problem Solving", "Logical Reasoning"],
-    weaknesses: ["Public Speaking"],
-    recommendedPaths: ["Software Developer", "Data Analyst"]
-  },
+  skilldna: null,
   xp: 150,
   level: 2,
   badges: ["early_adopter"],
