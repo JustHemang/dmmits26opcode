@@ -90,11 +90,11 @@ function day(ts: number) {
   return new Date(ts).toLocaleDateString("en-IN", { day: "numeric", month: "short" });
 }
 
-const STATUS_BADGE: Record<JobApplication["status"], { label: TranslationKey | string; tone: "blue" | "green" | "warm" | "red" | "neutral" }> = {
+const STATUS_BADGE: Record<JobApplication["status"], { label: TranslationKey; tone: "blue" | "green" | "warm" | "red" | "neutral" }> = {
   applied: { label: "hire.applied", tone: "blue" },
   shortlisted: { label: "hire.shortlisted", tone: "warm" },
   interview: { label: "hire.interviews", tone: "warm" },
-  interviewed: { label: "AI Interview Done", tone: "green" },
+  interviewed: { label: "hire.interviewed", tone: "green" },
   hired: { label: "hire.hired", tone: "green" },
   rejected: { label: "hire.rejected", tone: "red" },
 };
